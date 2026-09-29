@@ -195,6 +195,19 @@ img {
     object-fit: cover;
 }
 
+.section-divider {
+    border: none;
+    height: 1px;
+    width: 100%;
+    margin: 0;
+    background: linear-gradient(
+        to right,
+        transparent,
+        #e6e6ea 15%,
+        #e6e6ea 85%,
+        transparent
+    );
+}
 
 /* ============================================
    TRAINING / CARDS SECTION (landing page)
@@ -210,20 +223,22 @@ img {
 }
 
 .section-head {
-    max-width: 768px;
+    max-width: 576px;
     margin: 0 auto;
-    text-align: center;
+    text-align: left;
 }
 
 .section-head h2 {
     margin: 0;
     font-size: clamp(2.1rem, 4.7vw, 2.75rem);
     font-weight: 800;
+    text-align: left;
 }
 
 .section-head p {
     margin-top: 12px;
     color: var(--muted-foreground);
+    text-align: left;
 }
 
 .cards {
@@ -604,7 +619,7 @@ img {
     text-align: center;
     font-size: 0.95rem;
     color: var(--muted-foreground);
-    margin-top: 0.5rem;
+    margin-top: 1.5rem;
 }
 
 .auth-link a {

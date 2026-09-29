@@ -5,98 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Securely | Register</title>
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
-    <meta name="description" content="Create your account and start your cybersecurity training with Securely." />
+    <meta name="description" content="Create your Securely account to start your cybersecurity training." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/register.css" />
 </head>
 <body>
     <div class="register-page">
-        <div class="register-container">
-            <!-- Back Button -->
-            <a class="back-button" href="index.html" aria-label="Back to home">
-                <i class="fas fa-arrow-left" aria-hidden="true"></i>
-            </a>
+        <a class="back-button" href="index.html" aria-label="Back to home">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        </a>
 
-            <!-- Register Intro -->
-            <div class="register-intro">
-                <div class="brand">
-                    <h1>SECURELY</h1>
-                </div>
-                <h2>Register Your Account</h2>
-                <p class="desc">Start your cybersecurity training</p>
+        <!-- Intro OUTSIDE the container -->
+        <div class="register-intro">
+            <div class="brand">
+                <h1>SECURELY</h1>
             </div>
 
-            <!-- Steps Indicator -->
-            <ol class="steps-indicator" aria-label="Registration progress">
+            <h2>Register Your Account</h2>
+            <p class="desc">Start your cybersecurity training</p>
+        </div>
+
+        <!-- Container starts at the steps -->
+        <div class="register-container">
+
+            <ul class="steps-indicator">
                 <li class="step active">
                     <span class="step-number">1</span>
                     <span class="step-label">Register</span>
                 </li>
-                <li class="step-line" aria-hidden="true"></li>
+                <li class="step-line"></li>
                 <li class="step">
                     <span class="step-number">2</span>
                     <span class="step-label">Verify</span>
                 </li>
-                <li class="step-line" aria-hidden="true"></li>
+                <li class="step-line"></li>
                 <li class="step">
                     <span class="step-number">3</span>
                     <span class="step-label">Complete</span>
                 </li>
-            </ol>
+            </ul>
 
-            <!-- Register Form -->
             <form id="registerForm" novalidate>
+
                 <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" id="fullName" placeholder="Enter your full name" required />
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="Enter your full name" required />
                     <div class="error-message" id="nameError">Please enter your name</div>
                 </div>
 
                 <div class="form-group">
-                    <label>Email</label>
+                    <label for="email">Email</label>
                     <input type="email" id="email" placeholder="example@gmail.com" required />
                     <div class="error-message" id="emailError">Please enter a valid email</div>
                 </div>
 
                 <div class="form-group">
-                    <label>Password</label>
+                    <label for="password">Password</label>
                     <div class="input-icon">
-                        <input type="password" id="password" placeholder="Create a strong password" required minlength="8" />
+                        <input type="password" id="password" placeholder="Create a strong password" required />
                         <i class="fas fa-eye" id="togglePassword"></i>
                     </div>
                     <div class="error-message" id="passwordError">Password must be at least 8 characters</div>
                 </div>
 
                 <div class="form-group">
-                    <label>Confirm Password</label>
+                    <label for="confirmPassword">Confirm Password</label>
                     <div class="input-icon">
                         <input type="password" id="confirmPassword" placeholder="Confirm your password" required />
                         <i class="fas fa-eye" id="toggleConfirmPassword"></i>
                     </div>
-                    <div class="error-message" id="confirmError">Passwords do not match</div>
+                    <div class="error-message" id="confirmPasswordError">Passwords do not match</div>
                 </div>
 
-                <button type="submit" class="auth-btn">Continue</button>
+                <button type="submit" class="auth-btn" id="registerBtn">Continue</button>
             </form>
 
-            <div id="registerMessage" class="error-message"></div>
+            <div id="registerMessage"></div>
 
-            <!-- Divider -->
-            <div class="divider">
-                <span>OR</span>
-            </div>
-
-            <!-- Sign In Link -->
             <p class="auth-link">
                 Already have an account? <a href="login.html">Sign in</a>
             </p>
         </div>
     </div>
 
-    <script src="js/auth.js"></script>
+    <script src="js/register.js"></script>
 </body>
 </html>
