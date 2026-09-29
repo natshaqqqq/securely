@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Securely | Modules</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div class="training-page">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <h1>SECURELY</h1>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">OVERVIEW</span>
+                    <ul>
+                        <li>
+                            <a href="dashboard.html" id="navDashboard">
+                                <i class="fas fa-th-large"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="modules.html" id="navLesson">
+                                <i class="fas fa-book-open"></i>
+                                <span>Modules</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="resources.html" id="navResources">
+                                <i class="fas fa-bookmark"></i>
+                                <span>Resources</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="simulations.html" id="navSimulations">
+                                <i class="fas fa-shield-virus"></i>
+                                <span>Simulations</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-section-title">SETTINGS</span>
+                    <ul>
+                        <li>
+                            <a href="profile.html" id="navProfile">
+                                <i class="fas fa-user"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="settings.html" id="navSettings">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Overlay for mobile -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2>Lessons</h2>
+                </div>
+                <div class="header-right">
+                    <div class="user-profile">
+                        <span class="user-name" id="userName">User</span>
+                        <div class="user-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats -->
+            <div class="stats-bar" id="statsBar">
+                <div class="stat-item">
+                    <span class="stat-icon"><i class="fas fa-book"></i></span>
+                    <div>
+                        <span class="stat-value" id="completedCount">0</span>
+                        <span class="stat-label">Modules Completed</span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon"><i class="fas fa-star"></i></span>
+                    <div>
+                        <span class="stat-value" id="pointsCount">0</span>
+                        <span class="stat-label">Points</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lessons Grid (populated by JS) -->
+            <section class="lessons-grid" id="lessonsGrid">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Loading lessons...
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Completed module popup -->
+    <div id="completedModal" class="completed-modal" style="display:none;">
+        <div class="completed-modal-backdrop" data-close-modal></div>
+
+        <div class="completed-modal-content">
+            <button class="completed-modal-close" data-close-modal aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="completed-modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+
+            <h2 id="completedModalTitle">Module Complete</h2>
+
+            <p class="completed-modal-text">
+                You have already completed this module.
+            </p>
+
+            <div class="completed-modal-summary">
+                <div class="summary-heading">
+                    <i class="fas fa-lightbulb"></i> What you learned
+                </div>
+                <p id="completedModalSummary"></p>
+            </div>
+
+            <p class="completed-modal-note">
+                Starting over will remove the points you earned and clear your quiz progress.
+            </p>
+
+            <div class="completed-modal-actions">
+                <button id="completedStartOverBtn" class="lesson-btn start-over-btn">
+                    <i class="fas fa-rotate-left"></i> Start Over
+                </button>
+                <button id="completedBackBtn" class="lesson-btn back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Modules
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/modules.js"></script>
+</body>
+</html>

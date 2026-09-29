@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Securely | Spot the Phish</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div class="training-page">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <h1>SECURELY</h1>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">OVERVIEW</span>
+                    <ul>
+                        <li>
+                            <a href="dashboard.html" id="navDashboard">
+                                <i class="fas fa-th-large"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="modules.html" id="navLesson">
+                                <i class="fas fa-book-open"></i>
+                                <span>Modules</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="resources.html" id="navResources">
+                                <i class="fas fa-bookmark"></i>
+                                <span>Resources</span>
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="simulations.html" id="navSimulations">
+                                <i class="fas fa-shield-virus"></i>
+                                <span>Simulations</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-section-title">SETTINGS</span>
+                    <ul>
+                        <li>
+                            <a href="profile.html" id="navProfile">
+                                <i class="fas fa-user"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="settings.html" id="navSettings">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2>Spot the Phish</h2>
+                </div>
+                <div class="header-right">
+                    <div class="user-profile">
+                        <span class="user-name" id="userName">User</span>
+                        <div class="user-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="sim-view">
+
+                <div id="simLoading" class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Loading emails...
+                </div>
+
+                <div id="simError" class="empty-state error" style="display:none;">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <h3>Could not load emails</h3>
+                    <p id="simErrorText"></p>
+                    <button onclick="location.reload()" class="retry-btn">Retry</button>
+                </div>
+
+                <div id="simContent" style="display:none;">
+
+                    <!-- Intro block -->
+                    <div id="phishIntro" class="sim-intro">
+                        <h3>How this works</h3>
+                        <p>
+                            Read the email sender, subject, and body carefully.
+                            Decide whether each one is a <strong>phishing attempt</strong> or a
+                            <strong>legitimate email</strong>. After you answer, you will see an explanation
+                            of what gave it away and tips to help you spot similar emails in the future.
+                        </p>
+                    </div>
+
+                    <div class="sim-progress-bar">
+                        <div class="sim-progress-info">
+                            <span id="progressText">Email 1 of 6</span>
+                            <span id="scoreText">0 correct</span>
+                        </div>
+                        <div class="sim-progress-track">
+                            <div id="progressFill" class="sim-progress-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="email-client">
+                        <div class="email-toolbar">
+                            <i class="fas fa-envelope"></i>
+                            <span>Inbox</span>
+                        </div>
+
+                        <div class="email-headers">
+                            <div class="email-row">
+                                <span class="email-label">From:</span>
+                                <span class="email-value">
+                                    <span id="emailSenderName"></span>
+                                    <span class="email-address">&lt;<span id="emailSenderAddress"></span>&gt;</span>
+                                </span>
+                            </div>
+                            <div class="email-row">
+                                <span class="email-label">To:</span>
+                                <span class="email-value">you@example.com</span>
+                            </div>
+                            <div class="email-row">
+                                <span class="email-label">Date:</span>
+                                <span class="email-value" id="emailTimestamp"></span>
+                            </div>
+                            <div class="email-row subject-row">
+                                <span class="email-label">Subject:</span>
+                                <span class="email-value subject-value" id="emailSubject"></span>
+                            </div>
+                        </div>
+
+                        <div class="email-body" id="emailBody"></div>
+                    </div>
+
+                    <div class="sim-actions">
+                        <button id="btnPhish" class="sim-btn sim-btn-danger">
+                            <i class="fas fa-exclamation-triangle"></i> Phishing
+                        </button>
+                        <button id="btnLegit" class="sim-btn sim-btn-safe">
+                            <i class="fas fa-check"></i> Legitimate
+                        </button>
+                    </div>
+
+                    <div id="feedback" class="sim-feedback" style="display:none;"></div>
+
+                    <div class="sim-next-wrap">
+                        <button id="nextBtn" class="sim-next" style="display:none;">
+                            Next Email <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/phish.js"></script>
+</body>
+</html>

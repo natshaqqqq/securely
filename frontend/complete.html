@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Securely | Registration Complete</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+    <meta name="description" content="Your Securely account has been successfully verified. Start your cybersecurity training now." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/complete.css" />
+</head>
+<body>
+    <div class="complete-page">
+        <!-- Back Button -->
+        <a class="back-button" href="index.html" aria-label="Back to home">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        </a>
+
+        <!-- Complete Intro (outside the box) -->
+        <div class="complete-intro">
+            <div class="brand">
+                <h1>SECURELY</h1>
+            </div>
+            <h2>Registration Complete</h2>
+            <p class="desc">Your account is ready</p>
+        </div>
+
+        <!-- Steps Indicator (outside the box) -->
+        <ol class="steps-indicator" aria-label="Registration progress">
+            <li class="step completed">
+                <span class="step-number"><i class="fas fa-check"></i></span>
+                <span class="step-label">Register</span>
+            </li>
+            <li class="step-line" aria-hidden="true"></li>
+            <li class="step completed">
+                <span class="step-number"><i class="fas fa-check"></i></span>
+                <span class="step-label">Verify</span>
+            </li>
+            <li class="step-line" aria-hidden="true"></li>
+            <li class="step active">
+                <span class="step-number">3</span>
+                <span class="step-label">Complete</span>
+            </li>
+        </ol>
+
+        <!-- Complete Container (the box) -->
+        <div class="complete-container">
+            <!-- Complete Section -->
+            <div class="complete-section">
+                <div class="complete-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Email Verified!</h3>
+                <p class="complete-desc">
+                    Your account has been verified. Start your training now and strengthen your cybersecurity awareness.
+                </p>
+
+                <button class="auth-btn" id="startTrainingBtn">Start Training</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/complete.js"></script>
+</body>
+</html>

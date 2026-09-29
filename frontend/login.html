@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Securely | Login</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+    <meta name="description" content="Sign in to continue your cybersecurity training with Securely." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div class="login-page">
+        <a class="back-button" href="index.html" aria-label="Back to home">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        </a>
+
+        <div class="login-intro">
+            <div class="brand">
+                <h1>SECURELY</h1>
+            </div>
+
+            <h2>Welcome Back!</h2>
+            <p class="desc">Sign in to continue your training</p>
+        </div>
+
+        <div class="login-container">
+            <!-- Login Form -->
+            <form id="loginForm" novalidate>
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="email" placeholder="example@gmail.com" required />
+                    <div class="error-message" id="emailError">Please enter a valid email</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> Password</label>
+                    <div class="input-icon">
+                        <input type="password" id="password" placeholder="Enter your password" required />
+                        <i class="fas fa-eye" id="togglePassword"></i>
+                    </div>
+                    <div class="error-message" id="passwordError">Please enter your password</div>
+                </div>
+
+                <div class="form-options">
+                    <label>
+                        <input type="checkbox" id="rememberMe" /> Remember me
+                    </label>
+                    <a href="#" id="forgotPassword">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="auth-btn" id="loginBtn">Sign in</button>
+            </form>
+
+            <!-- Login Message Container -->
+            <div id="loginMessage"></div>
+
+            <!-- Divider -->
+            <div class="divider">
+                <span>or</span>
+            </div>
+
+            <!-- Sign Up Link -->
+            <p class="auth-link">
+                Don't have an account? <a href="register.html">Create now</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="js/login.js"></script>
+</body>
+</html>

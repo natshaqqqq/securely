@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Securely | Resources</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div class="training-page">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <h1>SECURELY</h1>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">OVERVIEW</span>
+                    <ul>
+                        <li>
+                            <a href="dashboard.html" id="navDashboard">
+                                <i class="fas fa-th-large"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="modules.html" id="navLesson">
+                                <i class="fas fa-book-open"></i>
+                                <span>Modules</span>
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="resources.html" id="navResources">
+                                <i class="fas fa-bookmark"></i>
+                                <span>Resources</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="simulations.html" id="navSimulations">
+                                <i class="fas fa-shield-virus"></i>
+                                <span>Simulations</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-section-title">SETTINGS</span>
+                    <ul>
+                        <li>
+                            <a href="profile.html" id="navProfile">
+                                <i class="fas fa-user"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="settings.html" id="navSettings">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2>Resources</h2>
+                </div>
+                <div class="header-right">
+                    <div class="user-profile">
+                        <span class="user-name" id="userName">User</span>
+                        <div class="user-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="resources-page">
+
+                <div class="resources-hero">
+                    <h1>RESOURCES</h1>
+                    <p>Trusted cybersecurity organisations and resources for learning, protection and assistance.</p>
+                </div>
+
+                <section class="resources-block">
+                    <h2 class="resources-block-title">
+                        Malaysian Cybersecurity Organisations
+                    </h2>
+                    <div id="orgGrid" class="resources-grid"></div>
+                </section>
+
+                <section class="resources-block">
+                    <h2 class="resources-block-title">
+                        Cybersecurity News
+                    </h2>
+                    <div id="newsGrid" class="resources-grid"></div>
+                </section>
+
+                <section class="resources-block">
+                    <h2 class="resources-block-title">
+                        Security Tools
+                    </h2>
+                    <div id="toolsGrid" class="resources-grid"></div>
+                </section>
+
+                <section class="help-callout">
+                    <div class="help-icon">
+                        <i class="fas fa-triangle-exclamation"></i>
+                    </div>
+                    <div class="help-text">
+                        <h3>Need Help?</h3>
+                        <p>Report a cybersecurity incident through Cyber999.</p>
+                    </div>
+                    <a href="https://www.mycert.org.my/portal/"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="help-btn">
+                        Visit Cyber999 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </section>
+
+                <div id="resourcesLoading" class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Loading resources...
+                </div>
+
+                <div id="resourcesError" class="empty-state error" style="display:none;">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <h3>Failed to load resources</h3>
+                    <p id="resourcesErrorText"></p>
+                    <button onclick="loadResources()" class="retry-btn">Retry</button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Resource detail modal -->
+    <div id="resourceModal" class="resource-modal" style="display:none;">
+        <div class="resource-modal-backdrop" data-close-modal></div>
+
+        <div class="resource-modal-content">
+            <button class="resource-modal-close" data-close-modal aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="resource-modal-header">
+                <div>
+                    <h2 id="modalTitle">Title</h2>
+                </div>
+            </div>
+
+            <div id="modalBody" class="resource-modal-body"></div>
+
+            <div class="resource-modal-footer">
+                <a id="modalVisitBtn"
+                   href="#"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="resource-modal-visit">
+                    Visit Website <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/resources.js"></script>
+</body>
+</html>

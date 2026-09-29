@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Securely | Module</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div class="training-page">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <h1>SECURELY</h1>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">OVERVIEW</span>
+                    <ul>
+                        <li>
+                            <a href="dashboard.html" id="navDashboard">
+                                <i class="fas fa-th-large"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="modules.html" id="navLesson">
+                                <i class="fas fa-book-open"></i>
+                                <span>Modules</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="resources.html" id="navResources">
+                                <i class="fas fa-bookmark"></i>
+                                <span>Resources</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-section-title">SETTINGS</span>
+                    <ul>
+                        <li>
+                            <a href="profile.html" id="navProfile">
+                                <i class="fas fa-user"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="settings.html" id="navSettings">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2 id="moduleHeaderTitle">Module</h2>
+                </div>
+                <div class="header-right">
+                    <div class="user-profile">
+                        <span class="user-name" id="userName">User</span>
+                        <div class="user-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="module-view">
+
+                <div id="moduleLoading" class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Loading module...
+                </div>
+
+                <div id="moduleError" class="empty-state error" style="display:none;">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <h3>Failed to load module</h3>
+                    <p id="moduleErrorText"></p>
+                    <a href="modules.html" class="retry-btn">Back to Modules</a>
+                </div>
+
+                <article id="moduleBody" style="display:none;">
+
+                    <div class="module-hero">
+                        <div class="module-hero-icon">
+                            <i id="moduleIcon" class="fas fa-book"></i>
+                        </div>
+                        <div class="module-hero-text">
+                            <h1 id="moduleTitle"></h1>
+                            <p id="moduleDescription"></p>
+                        </div>
+                    </div>
+
+                    <!-- Quiz area -->
+                    <div id="quizArea" class="quiz-area">
+
+                        <div class="quiz-progress-wrap">
+                            <div class="quiz-progress-meta">
+                                <span id="quizProgressText">Question 1 of 7</span>
+                                <span id="quizScoreText">0 correct</span>
+                            </div>
+                            <div class="quiz-progress-bar">
+                                <div id="quizProgressFill" class="quiz-progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="quiz-question-block">
+                            <h3 id="questionNumber" class="quiz-question-number"></h3>
+                            <div id="quizOptions" class="quiz-options"></div>
+                        </div>
+
+                        <div id="feedbackPanel" class="feedback-panel" style="display:none;"></div>
+
+                        <div class="quiz-action-row">
+                            <button id="nextBtn" class="next-question-btn" style="display:none;">
+                                Next Question <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                    </div>
+
+                </article>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/module-content.js"></script>
+</body>
+</html>

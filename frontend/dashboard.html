@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Securely | Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div class="training-page">
+       <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <h1>SECURELY</h1>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">OVERVIEW</span>
+                    <ul>
+                        <li class="active">
+                            <a href="dashboard.html" id="navDashboard">
+                                <i class="fas fa-th-large"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="modules.html" id="navLesson">
+                                <i class="fas fa-book-open"></i>
+                                <span>Modules</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="resources.html" id="navResources">
+                                <i class="fas fa-bookmark"></i>
+                                <span>Resources</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="simulations.html" id="navSimulations">
+                                <i class="fas fa-shield-virus"></i>
+                                <span>Simulations</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-section-title">SETTINGS</span>
+                    <ul>
+                        <li>
+                            <a href="profile.html" id="navProfile">
+                                <i class="fas fa-user"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="settings.html" id="navSettings">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2>Dashboard</h2>
+                </div>
+                <div class="header-right">
+                    <div class="user-profile">
+                        <span class="user-name" id="userName">User</span>
+                        <div class="user-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="stats-bar" id="statsBar">
+                <div class="stat-item">
+                    <span class="stat-icon"><i class="fas fa-book"></i></span>
+                    <div>
+                        <span class="stat-value" id="completedCount">0</span>
+                        <span class="stat-label">Modules Completed</span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon"><i class="fas fa-star"></i></span>
+                    <div>
+                        <span class="stat-value" id="pointsCount">0</span>
+                        <span class="stat-label">Points</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Continue Learning header -->
+            <div class="section-head">
+                <h3>Continue Learning</h3>
+                <p>Continue exploring modules and expand your cybersecurity knowledge</p>
+            </div>
+
+            <!-- Modules Grid -->
+            <section class="lessons-grid" id="lessonsGrid">
+                <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading lessons...</div>
+            </section>
+
+            <!-- Simulations teaser -->
+            <section class="dashboard-resources dashboard-simulations">
+                <div class="dashboard-resources-content">
+                    <div class="dashboard-resources-icon sim-icon">
+                        <i class="fas fa-shield-virus"></i>
+                    </div>
+                    <div class="dashboard-resources-text">
+                        <h3>Practice with simulations</h3>
+                        <p>
+                            Test what you have learned with real scenarios: spot the phish,
+                            check password strength, analyse scam messages, and inspect URLs.
+                        </p>
+                    </div>
+                    <a href="simulations.html" class="dashboard-resources-btn sim-btn">
+                        Try Simulations <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Resources teaser -->
+            <section class="dashboard-resources">
+                <div class="dashboard-resources-content">
+                    <div class="dashboard-resources-icon">
+                        <i class="fas fa-bookmark"></i>
+                    </div>
+                    <div class="dashboard-resources-text">
+                        <h3>Need more resources?</h3>
+                        <p>
+                            Find trusted Malaysian cybersecurity organisations, hotlines,
+                            learning platforms, and tools to help you stay safe online.
+                        </p>
+                    </div>
+                    <a href="resources.html" class="dashboard-resources-btn">
+                        Browse Resources <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

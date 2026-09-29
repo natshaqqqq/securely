@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Securely | Verify Email</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+    <meta name="description" content="Verify your email address to complete your Securely account registration." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div class="verify-page">
+        <a class="back-button" href="register.html" aria-label="Back to registration">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        </a>
+
+        <div class="register-intro">
+            <div class="brand">
+                <h1>SECURELY</h1>
+            </div>
+
+            <h2>Register Your Account</h2>
+            <p class="desc">Start your cybersecurity training</p>
+        </div>
+
+        <ol class="steps-indicator" aria-label="Registration progress">
+            <li class="step completed">
+                <span class="step-number">1</span>
+                <span class="step-label">Register</span>
+            </li>
+            <li class="step-line" aria-hidden="true"></li>
+            <li class="step active">
+                <span class="step-number">2</span>
+                <span class="step-label">Verify</span>
+            </li>
+            <li class="step-line" aria-hidden="true"></li>
+            <li class="step">
+                <span class="step-number">3</span>
+                <span class="step-label">Complete</span>
+            </li>
+        </ol>
+
+        <div class="verify-container">
+            <!-- Verify Section -->
+            <div class="verify-section">
+                <div class="verify-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3>Verify your email</h3>
+                <p class="verify-desc">We've sent a verification code to</p>
+                <p class="email-display" id="userEmail"></p>
+
+                <form id="verifyForm">
+                    <div class="form-group">
+                        <label>Enter 4-digit verification code</label>
+                        <div class="code-inputs" id="codeInputs">
+                            <input type="text" maxlength="1" class="code-input" data-index="0" autofocus />
+                            <input type="text" maxlength="1" class="code-input" data-index="1" />
+                            <input type="text" maxlength="1" class="code-input" data-index="2" />
+                            <input type="text" maxlength="1" class="code-input" data-index="3" />
+                        </div>
+                        <div class="error-message" id="verifyError">Invalid verification code. Please try again.</div>
+                    </div>
+
+                    <p class="resend-text">
+                        Didn't receive code? <a id="resendLink">Resend in <span class="timer" id="timer">60</span>s</a>
+                    </p>
+
+                    <button type="submit" class="auth-btn" id="verifyBtn">Verify &amp; Continue</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/verify.js"></script>
+</body>
+</html>
