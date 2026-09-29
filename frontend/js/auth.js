@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const toggleConfirm = document.getElementById('toggleConfirmPassword');
 
     // API Base URL
-    const API_BASE_URL = 'http://localhost:3000';
+    const API_BASE_URL = 'https://securely-backend-xq4c.onrender.com';
 
     // Check if user is already logged in
     const userId = localStorage.getItem('securely_user_id');
