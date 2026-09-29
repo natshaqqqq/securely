@@ -66,11 +66,27 @@ transporter.verify((error) => {
 
 
 // ============================================
-// CORS Configuration - UPDATED FOR VERCEL
+// CORS Configuration - Allow all Vercel URLs
 // ============================================
 
 app.use(cors({
-    origin: 'https://securely-amber.vercel.app', // <-- Updated to your live Vercel URL
+    origin: function (origin, callback) {
+        // Allow requests with no origin (Postman, mobile apps, curl)
+        if (!origin) return callback(null, true);
+
+        // Allow ANY Vercel deployment URL (production + every preview URL)
+        if (origin.endsWith('.vercel.app')) {
+            return callback(null, true);
+        }
+
+        // Allow local development
+        if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
+            return callback(null, true);
+        }
+
+        // Block everything else
+        callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
@@ -342,8 +358,8 @@ app.post('/api/auth/verify-code', async (req, res) => {
 
         res.cookie('securely_user_id', String(result.insertId), {
             httpOnly: true,
-            secure: true, // <-- UPDATED: Required for HTTPS (Vercel)
-            sameSite: 'none', // <-- UPDATED: Required for cross-domain cookies (Vercel -> Render)
+            secure: true,
+            sameSite: 'none',
             maxAge: 24 * 60 * 60 * 1000
         });
 
@@ -476,8 +492,8 @@ app.post('/api/auth/login', async (req, res) => {
 
         res.cookie('securely_user_id', String(user.id), {
             httpOnly: true,
-            secure: true, // <-- UPDATED: Required for HTTPS (Vercel)
-            sameSite: 'none', // <-- UPDATED: Required for cross-domain cookies (Vercel -> Render)
+            secure: true,
+            sameSite: 'none',
             maxAge: 24 * 60 * 60 * 1000
         });
 
