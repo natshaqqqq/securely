@@ -58,10 +58,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const email = emailInput.value.trim();
             const password = passwordInput.value;
 
-            // Clear previous errors
             clearErrors();
 
-            // Validate email
             if (!email) {
                 showError('emailError', 'Please enter your email.');
                 return;
@@ -72,30 +70,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            // Validate password
             if (!password) {
                 showError('passwordError', 'Please enter your password.');
                 return;
             }
 
-            // Disable button while logging in
             loginBtn.disabled = true;
             loginBtn.textContent = 'Signing in...';
 
             try {
 
                 const response = await fetch(
-                    'https://securely-backend-xq4c.onrender.com/api/auth/login',
+                    'https://security-backend-xq4c.onrender.com/api/auth/login',
                     {
                         method: 'POST',
-
-                        // Allow the browser to receive/send cookies
-                        credentials: 'include',
-
                         headers: {
                             'Content-Type': 'application/json'
                         },
-
                         body: JSON.stringify({
                             email: email,
                             password: password
@@ -120,22 +111,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
                 // ============================================
+                // Save JWT token + user data
+                // ============================================
+
+                localStorage.setItem('securely_token', result.token);
+                localStorage.setItem('securely_user', JSON.stringify(result.data));
+
+
+                // ============================================
                 // Remember Email
                 // ============================================
 
                 if (rememberMe.checked) {
-
-                    localStorage.setItem(
-                        'securely_remember_email',
-                        email
-                    );
-
+                    localStorage.setItem('securely_remember_email', email);
                 } else {
-
-                    localStorage.removeItem(
-                        'securely_remember_email'
-                    );
-
+                    localStorage.removeItem('securely_remember_email');
                 }
 
 
@@ -192,9 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // ============================================
 
     function isValidEmail(email) {
-
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
     }
 
 
@@ -203,10 +191,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const errorElement = document.getElementById(elementId);
 
         if (errorElement) {
-
             errorElement.textContent = message;
             errorElement.style.display = 'block';
-
         }
 
     }
@@ -217,9 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const errors = document.querySelectorAll('.error-message');
 
         errors.forEach(error => {
-
             error.style.display = 'none';
-
         });
 
     }

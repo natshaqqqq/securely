@@ -2,7 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', async function () {
 
-    const API_BASE = 'https://securely-backend-xq4c.onrender.com';
+    const API_BASE = 'https://security-backend-xq4c.onrender.com';
 
     let userId = null;
     let userData = null;
@@ -14,15 +14,22 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     async function checkLogin() {
 
+        const token = localStorage.getItem('securely_token');
+
+        if (!token) {
+            window.location.href = 'login.html';
+            return false;
+        }
+
         try {
 
             const response = await fetch(
                 `${API_BASE}/api/auth/me`,
                 {
                     method: 'GET',
-                    credentials: 'include',
                     headers: {
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     }
                 }
             );
@@ -30,6 +37,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             const result = await response.json();
 
             if (!response.ok || !result.success) {
+
+                localStorage.removeItem('securely_token');
+                localStorage.removeItem('securely_user');
 
                 window.location.href = 'login.html';
                 return false;
@@ -80,9 +90,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                 `${API_BASE}/api/modules?userId=${userId}`,
                 {
                     method: 'GET',
-                    credentials: 'include',
                     headers: {
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('securely_token')}`
                     }
                 }
             );
@@ -93,7 +103,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
                 const allModules = result.data || [];
 
-                // Only show modules that are NOT completed yet
                 const pendingModules = allModules.filter(
                     m => !(m.completed === 1 || m.completed === true)
                 );
@@ -142,9 +151,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         let html = modules.map(module => {
 
             const iconClass = module.icon_class || 'fas fa-book';
-
             const title = module.name || module.title || 'Untitled';
-
             const description = module.description || 'Learn about this topic';
 
             return `
@@ -182,13 +189,11 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     function updateStats(allModules) {
 
-        // Modules completed
         const completed =
             allModules.filter(
                 m => m.completed === 1 || m.completed === true
             ).length;
 
-        // Points earned (from completed ones)
         const totalPoints =
             allModules.reduce(
                 (sum, m) =>
@@ -207,7 +212,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
     // ============================================
-    // Start lesson — navigate to module content page
+    // Start lesson
     // ============================================
 
     window.startLesson = function (moduleId) {
@@ -333,7 +338,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Sidebar Navigation Links
     // ============================================
 
-    // Dashboard — current page, just scroll to top
     const dashboardLink = document.getElementById('navDashboard');
     if (dashboardLink) {
         dashboardLink.addEventListener('click', function (e) {
@@ -342,7 +346,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     }
 
-    // Lesson → modules.html
     const lessonLink = document.getElementById('navLesson');
     if (lessonLink) {
         lessonLink.addEventListener('click', function (e) {
@@ -351,7 +354,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     }
 
-    // Resources → resources.html
     const resourcesLink = document.getElementById('navResources');
     if (resourcesLink) {
         resourcesLink.addEventListener('click', function (e) {
@@ -368,7 +370,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     }
 
-    // Profile → profile.html
     const profileLink = document.getElementById('navProfile');
     if (profileLink) {
         profileLink.addEventListener('click', function (e) {
@@ -377,7 +378,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     }
 
-    // Settings → settings.html
     const settingsLink = document.getElementById('navSettings');
     if (settingsLink) {
         settingsLink.addEventListener('click', function (e) {
@@ -401,22 +401,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             if (!confirm('Are you sure you want to logout?')) return;
 
-            try {
-
-                await fetch(`${API_BASE}/api/auth/logout`, {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-
-            } catch (error) {
-                console.error('Logout error:', error);
-            }
-
+            localStorage.removeItem('securely_token');
             localStorage.removeItem('securely_user');
-            localStorage.removeItem('securely_user_email');
             localStorage.removeItem('securely_verified');
             localStorage.removeItem('securely_remember_email');
 
