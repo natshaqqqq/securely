@@ -1,6 +1,8 @@
 {
-  "buildCommand": "echo 'No build needed'",
-  "outputDirectory": "frontend",
-  "cleanUrls": true,
-  "trailingSlash": false
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://security-backend-xq4c.onrender.com/api/:path*"
+    }
+  ]
 }
