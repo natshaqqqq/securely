@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     async function loadModules() {
         try {
             const response = await fetch(
-                `${API_BASE}/api/modules`,               // ← no more ?userId=
+                `${API_BASE}/api/modules?userId=${userId}`,
                 {
                     method: 'GET',
                     credentials: 'include',              // ← send cookies
