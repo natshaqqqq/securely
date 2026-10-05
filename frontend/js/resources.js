@@ -1,4 +1,4 @@
-// resources.js - Loads cybersecurity resources from the DB
+// resources.js - Loads cybersecurity resources from the DB (cookie-based auth)
 
 document.addEventListener('DOMContentLoaded', async function () {
 
@@ -8,23 +8,27 @@ document.addEventListener('DOMContentLoaded', async function () {
     let resourcesById = {};
 
     // ============================================
-    // Login check
+    // Login check (via cookie)
     // ============================================
 
     async function checkLogin() {
         try {
             const res = await fetch(`${API_BASE}/api/auth/me`, {
                 method: 'GET',
-                credentials: 'include',
+                credentials: 'include',              // ← send cookie
                 headers: { 'Accept': 'application/json' }
             });
+
             const data = await res.json();
+
             if (!res.ok || !data.success) {
                 window.location.href = 'login.html';
                 return false;
             }
+
             userData = data.data;
             return true;
+
         } catch (err) {
             console.error(err);
             window.location.href = 'login.html';
@@ -52,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         try {
             const res = await fetch(`${API_BASE}/api/resources`, {
                 method: 'GET',
-                credentials: 'include',
+                credentials: 'include',              // ← send cookie
                 headers: { 'Accept': 'application/json' }
             });
 
@@ -213,20 +217,33 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
 
     document.getElementById('navSimulations')?.addEventListener('click', function (e) {
-    e.preventDefault();
-    window.location.href = 'simulations.html';
+        e.preventDefault();
+        window.location.href = 'simulations.html';
     });
+
+
+    // ============================================
+    // Logout (clears cookie on server)
+    // ============================================
 
     document.getElementById('logoutBtn')?.addEventListener('click', async e => {
         e.preventDefault();
         if (!confirm('Are you sure you want to logout?')) return;
+
         try {
             await fetch(`${API_BASE}/api/auth/logout`, {
                 method: 'POST',
-                credentials: 'include',
-                headers: { 'Accept': 'application/json' }
+                credentials: 'include'                // ← send cookie so server clears it
             });
-        } catch (err) { console.error(err); }
+        } catch (err) {
+            console.error('Logout error:', err);
+        }
+
+        // Clear any leftover localStorage entries
+        localStorage.removeItem('securely_token');
+        localStorage.removeItem('securely_user');
+        localStorage.removeItem('securely_remember_email');
+
         window.location.href = 'index.html';
     });
 

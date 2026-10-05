@@ -1,24 +1,47 @@
-// simulations.js - Hub nav + cards loaded from API
+// simulations.js - Hub nav + cards loaded from API (cookie-based auth)
 
 document.addEventListener('DOMContentLoaded', async function () {
 
     const API_BASE = 'http://127.0.0.1:3000';
 
-    // Login check
+    // ============================================
+    // Login check (via cookie)
+    // ============================================
+
+    let userData = null;
+
     try {
-        const res = await fetch(`${API_BASE}/api/auth/me`, { credentials: 'include' });
+        const res = await fetch(`${API_BASE}/api/auth/me`, {
+            method: 'GET',
+            credentials: 'include',              // ← send cookie
+            headers: { 'Accept': 'application/json' }
+        });
         const data = await res.json();
-        if (!res.ok || !data.success) { window.location.href = 'login.html'; return; }
-        const userNameEl = document.getElementById('userName');
-        if (userNameEl && data.data?.name) userNameEl.textContent = data.data.name;
+
+        if (!res.ok || !data.success) {
+            window.location.href = 'login.html';
+            return;
+        }
+        userData = data.data;
+
     } catch (err) {
-        console.error(err); window.location.href = 'login.html'; return;
+        console.error(err);
+        window.location.href = 'login.html';
+        return;
     }
 
+    const userNameEl = document.getElementById('userName');
+    if (userNameEl && userData?.name) userNameEl.textContent = userData.name;
+
+
+    // ============================================
     // Sidebar toggle
+    // ============================================
+
     const menuToggle = document.getElementById('menuToggle');
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
+
     if (menuToggle && sidebar && overlay) {
         menuToggle.addEventListener('click', () => {
             sidebar.classList.toggle('open');
@@ -30,7 +53,11 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     }
 
+
+    // ============================================
     // Nav links
+    // ============================================
+
     document.getElementById('navDashboard')?.addEventListener('click', e => { e.preventDefault(); window.location.href = 'dashboard.html'; });
     document.getElementById('navLesson')?.addEventListener('click', e => { e.preventDefault(); window.location.href = 'modules.html'; });
     document.getElementById('navResources')?.addEventListener('click', e => { e.preventDefault(); window.location.href = 'resources.html'; });
@@ -38,28 +65,59 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById('navProfile')?.addEventListener('click', e => { e.preventDefault(); window.location.href = 'profile.html'; });
     document.getElementById('navSettings')?.addEventListener('click', e => { e.preventDefault(); window.location.href = 'settings.html'; });
 
-    // Logout
+
+    // ============================================
+    // Logout (clears cookie on server)
+    // ============================================
+
     document.getElementById('logoutBtn')?.addEventListener('click', async e => {
         e.preventDefault();
         if (!confirm('Are you sure you want to logout?')) return;
-        try { await fetch(`${API_BASE}/api/auth/logout`, { method: 'POST', credentials: 'include' }); } catch (err) { console.error(err); }
+
+        try {
+            await fetch(`${API_BASE}/api/auth/logout`, {
+                method: 'POST',
+                credentials: 'include'             // ← let server clear cookie
+            });
+        } catch (err) {
+            console.error('Logout error:', err);
+        }
+
+        localStorage.removeItem('securely_token');
+        localStorage.removeItem('securely_user');
+        localStorage.removeItem('securely_remember_email');
+
         window.location.href = 'index.html';
     });
 
+
+    // ============================================
     // Load hub cards
+    // ============================================
+
     const loading = document.getElementById('simLoading');
     const errorEl = document.getElementById('simError');
     const errorText = document.getElementById('simErrorText');
     const grid = document.getElementById('simGrid');
 
     function escapeHtml(str) {
-        return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        return String(str || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
     }
 
     try {
-        const res = await fetch(`${API_BASE}/api/simulations`, { credentials: 'include' });
+        const res = await fetch(`${API_BASE}/api/simulations`, {
+            method: 'GET',
+            credentials: 'include',            // ← send cookie
+            headers: { 'Accept': 'application/json' }
+        });
         const data = await res.json();
         if (!data.success) throw new Error(data.message || 'Failed');
+
         const cards = data.data || [];
         if (cards.length === 0) throw new Error('No simulations available');
 

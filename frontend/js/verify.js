@@ -497,6 +497,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     if (result.data) {
 
+                        if (result.data.id) {
+
+                            localStorage.setItem(
+                                'securely_user_id',
+                                String(result.data.id)
+                            );
+                        }
+
                         if (result.data.name) {
 
                             localStorage.setItem(

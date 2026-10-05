@@ -45,6 +45,41 @@ body {
     line-height: 1.6;
 }
 
+/* 1. Lock the body when a training page is present */
+body:has(.training-page) {
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* 2. Training page fills viewport exactly, no page scroll */
+.training-page {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* 3. Sidebar stays fixed (already correct, just make sure) */
+.sidebar {
+    width: 260px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100vh;
+    z-index: 100;
+    transition: transform 0.3s ease;
+}
+
+/* 4. Main content is the ONLY scroll area */
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    height: 100vh;
+    overflow-y: auto;
+    min-width: 0;
+    max-width: calc(100vw - 260px);
+}
+
 h1,
 h2,
 h3,
@@ -223,8 +258,8 @@ img {
 }
 
 .section-head {
-    max-width: 576px;
-    margin: 0 auto;
+    max-width: 100%; /* Changed from 576px to allow full width */
+    margin: 0;       /* Changed from '0 auto' to align left */
     text-align: left;
 }
 
@@ -1186,6 +1221,8 @@ img {
     flex: 1;
     margin-left: 260px;
     padding: 0;
+    min-width: 0;   /* ← add this — fixes flex overflow */
+    max-width: calc(100vw - 260px);   /* ← or this, to constrain width */
 }
 
 .main-header {
@@ -1293,14 +1330,18 @@ img {
    👇 NEW: "Continue Learning" section header on the dashboard
    ============================================================ */
 
-.section-head {
+/* ============================================================
+   Dashboard "Continue Learning" header (lessons/dashboard pages)
+   ============================================================ */
+
+.dashboard-section-head {
     padding: 1.5rem 2rem 0.25rem;
     text-align: left;
     max-width: none;
     margin: 0;
 }
 
-.section-head h3 {
+.dashboard-section-head h3 {
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--navy);
@@ -1308,7 +1349,7 @@ img {
     letter-spacing: -0.3px;
 }
 
-.section-head p {
+.dashboard-section-head p {
     font-size: 0.875rem;
     color: #5a6f8a;
     margin: 0.25rem 0 0;

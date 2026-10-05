@@ -1,15 +1,20 @@
 // ============================================
-// LOGIN PAGE
+// LOGIN PAGE — cookie-based auth
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function () {
 
+    const API_BASE = 'http://127.0.0.1:3000';   // ← match dashboard/modules
+
     const loginForm = document.getElementById('loginForm');
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
-    const rememberMe = document.getElementById('rememberMe');
     const loginBtn = document.getElementById('loginBtn');
     const loginMessage = document.getElementById('loginMessage');
+
+    emailInput.value = '';
+    localStorage.removeItem('securely_remember_email');
+
 
     // ============================================
     // Toggle Password Visibility
@@ -31,18 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
         });
-    }
-
-
-    // ============================================
-    // Remember Email
-    // ============================================
-
-    const savedEmail = localStorage.getItem('securely_remember_email');
-
-    if (savedEmail) {
-        emailInput.value = savedEmail;
-        rememberMe.checked = true;
     }
 
 
@@ -81,51 +74,41 @@ document.addEventListener('DOMContentLoaded', function () {
             try {
 
                 const response = await fetch(
-                    'https://securely-backend-xq4c.onrender.com/api/auth/login',
+                    `${API_BASE}/api/auth/login`,
                     {
                         method: 'POST',
+                        credentials: 'include',          // ← KEY: accept + store the cookie
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
                         },
-                        body: JSON.stringify({
-                            email: email,
-                            password: password
-                        })
+                        body: JSON.stringify({ email, password })
                     }
                 );
 
                 const result = await response.json();
 
-                if (!response.ok) {
-
+                if (!response.ok || !result.success) {
                     showMessage(
                         result.message || 'Invalid email or password.',
                         'error'
                     );
-
                     loginBtn.disabled = false;
                     loginBtn.textContent = 'Sign in';
-
                     return;
                 }
 
 
                 // ============================================
-                // Save JWT token + user data
+                // Cookie is now set by the server.
+                // We only keep non-sensitive UI data in localStorage.
                 // ============================================
 
-                localStorage.setItem('securely_token', result.token);
-                localStorage.setItem('securely_user', JSON.stringify(result.data));
-
-
-                // ============================================
-                // Remember Email
-                // ============================================
-
-                if (rememberMe.checked) {
-                    localStorage.setItem('securely_remember_email', email);
-                } else {
-                    localStorage.removeItem('securely_remember_email');
+                if (result.data) {
+                    localStorage.setItem(
+                        'securely_user',
+                        JSON.stringify(result.data)
+                    );
                 }
 
 
@@ -162,62 +145,42 @@ document.addEventListener('DOMContentLoaded', function () {
     const forgotPassword = document.getElementById('forgotPassword');
 
     if (forgotPassword) {
-
         forgotPassword.addEventListener('click', function (e) {
-
             e.preventDefault();
-
             showMessage(
                 'Password reset functionality is not available yet.',
                 'info'
             );
-
         });
-
     }
 
 
     // ============================================
-    // Helper Functions
+    // Helpers
     // ============================================
 
     function isValidEmail(email) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
-
     function showError(elementId, message) {
-
         const errorElement = document.getElementById(elementId);
-
         if (errorElement) {
             errorElement.textContent = message;
             errorElement.style.display = 'block';
         }
-
     }
-
 
     function clearErrors() {
-
-        const errors = document.querySelectorAll('.error-message');
-
-        errors.forEach(error => {
-            error.style.display = 'none';
+        document.querySelectorAll('.error-message').forEach(err => {
+            err.style.display = 'none';
         });
-
     }
 
-
     function showMessage(message, type) {
-
-        if (!loginMessage) {
-            return;
-        }
-
+        if (!loginMessage) return;
         loginMessage.textContent = message;
         loginMessage.className = `login-message ${type}`;
-
     }
 
 });

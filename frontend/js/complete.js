@@ -7,8 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ============================================
     const userId = localStorage.getItem('securely_user_id');
     if (!userId) {
-        // If not logged in, redirect to login
-        window.location.href = 'complete.html';
+        window.location.href = 'login.html';
         return;
     }
 
@@ -36,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Redirect to dashboard
             setTimeout(() => {
-                window.location.href = 'frontend/dashboard.html';
+                window.location.href = 'dashboard.html';
             }, 500);
         });
     }

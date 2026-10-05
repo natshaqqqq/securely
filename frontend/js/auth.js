@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Auth.js loaded successfully');
     
     const form = document.getElementById('registerForm');
-    const fullName = document.getElementById('fullName');
+    const fullName = document.getElementById('name');
     const email = document.getElementById('email');
     const password = document.getElementById('password');
     const confirmPassword = document.getElementById('confirmPassword');
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const toggleConfirm = document.getElementById('toggleConfirmPassword');
 
     // API Base URL
-    const API_BASE_URL = 'https://securely-backend-xq4c.onrender.com';
+    const API_BASE_URL = 'http://localhost:3000';
 
     // Check if user is already logged in
     const userId = localStorage.getItem('securely_user_id');
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Validate confirm password
-            const confirmError = document.getElementById('confirmError');
+            const confirmError = document.getElementById('confirmPasswordError');
             if (password.value !== confirmPassword.value) {
                 confirmError.classList.add('show');
                 isValid = false;
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (confirmPassword) {
         confirmPassword.addEventListener('blur', function() {
-            const confirmError = document.getElementById('confirmError');
+            const confirmError = document.getElementById('confirmPasswordError');
             if (this.value !== password.value) {
                 confirmError.classList.add('show');
             } else {

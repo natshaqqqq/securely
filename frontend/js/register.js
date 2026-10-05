@@ -1,6 +1,23 @@
 // verify.js - Email verification page
 
 document.addEventListener('DOMContentLoaded', function () {
+    [
+        ['togglePassword', 'password'],
+        ['toggleConfirmPassword', 'confirmPassword']
+    ].forEach(function ([toggleId, inputId]) {
+        const toggle = document.getElementById(toggleId);
+        const input = document.getElementById(inputId);
+
+        if (toggle && input) {
+            toggle.addEventListener('click', function () {
+                const showPassword = input.type === 'password';
+                input.type = showPassword ? 'text' : 'password';
+                toggle.classList.toggle('fa-eye', !showPassword);
+                toggle.classList.toggle('fa-eye-slash', showPassword);
+            });
+        }
+    });
+
     const codeInputs = document.querySelectorAll('.code-input');
     const verifyForm = document.getElementById('verifyForm');
     const verifyBtn = document.getElementById('verifyBtn');
@@ -8,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const timerSpan = document.getElementById('timer');
     const errorDiv = document.getElementById('verifyError');
 
-    const API_BASE_URL = 'https://securely-backend-xq4c.onrender.com';
+    const API_BASE_URL = 'http://localhost:3000';
 
     let resendTimer = 60;
     let timerInterval = null;

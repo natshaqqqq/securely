@@ -184,8 +184,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (answered) return;
         answered = true;
 
-        if (els.intro) els.intro.style.display = 'none';
-
         const msg = messages[index];
 
         els.btnScam.disabled = true;
