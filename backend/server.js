@@ -126,14 +126,18 @@ app.use(cors({
         if (!origin) {
             return callback(null, true);
         }
+
         if (origin.startsWith('http://localhost:')) {
             return callback(null, true);
         }
+
         if (origin.startsWith('http://127.0.0.1:')) {
             return callback(null, true);
         }
+
         callback(new Error('Not allowed by CORS'));
     },
+
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
@@ -207,6 +211,7 @@ app.post('/api/auth/send-verification', async (req, res) => {
 
         // Validate email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
         if (!emailRegex.test(email)) {
             return res.status(400).json({
                 success: false,
@@ -236,7 +241,9 @@ app.post('/api/auth/send-verification', async (req, res) => {
         }
 
         // Generate verification code
-        const code = String(Math.floor(1000 + Math.random() * 9000));
+        const code = String(
+            Math.floor(1000 + Math.random() * 9000)
+        );
 
         // Store pending registration
         pendingRegistrations.set(email, {
@@ -271,9 +278,18 @@ app.post('/api/auth/send-verification', async (req, res) => {
                 to: email,
                 subject: 'Securely Verification',
 
-                text: `Hello ${name},\n\nYour verification code is: ${code}\n\nThis code will expire in 5 minutes.\n\nIf you didn't request this, please ignore this email.`,
+                text: `Hello ${name},
 
-                html: buildVerificationEmail(safeName, code)
+Your verification code is: ${code}
+
+This code will expire in 5 minutes.
+
+If you didn't request this, please ignore this email.`,
+
+                html: buildVerificationEmail(
+                    safeName,
+                    code
+                )
 
             });
 
@@ -290,6 +306,7 @@ app.post('/api/auth/send-verification', async (req, res) => {
     } catch (error) {
 
         console.error('Send verification error:', error);
+
         res.status(500).json({
             success: false,
             message: 'Failed to send code'
@@ -321,18 +338,27 @@ app.post('/api/auth/verify-code', async (req, res) => {
         }
 
         // Check expiration
-        if (Date.now() - storedData.timestamp > 5 * 60 * 1000) {
+        if (
+            Date.now() - storedData.timestamp >
+            5 * 60 * 1000
+        ) {
+
             return res.status(400).json({
                 success: false,
                 message: 'Code expired'
             });
+
         }
 
         // Check code
         if (storedData.code !== code) {
 
             storedData.attempts += 1;
-            verificationCodes.set(email, storedData);
+
+            verificationCodes.set(
+                email,
+                storedData
+            );
 
             return res.status(400).json({
                 success: false,
@@ -342,23 +368,35 @@ app.post('/api/auth/verify-code', async (req, res) => {
         }
 
         // Hash password
-        const hashedPassword = await bcrypt.hash(pendingUser.password, 10);
+        const hashedPassword =
+            await bcrypt.hash(
+                pendingUser.password,
+                10
+            );
 
         // Insert user
         const [result] = await pool.execute(
             `INSERT INTO users
             (name, email, password_hash, is_verified, created_at, updated_at)
             VALUES (?, ?, ?, 1, NOW(), NOW())`,
-            [pendingUser.name, pendingUser.email, hashedPassword]
+            [
+                pendingUser.name,
+                pendingUser.email,
+                hashedPassword
+            ]
         );
 
         // Set login cookie
-        res.cookie('securely_user_id', String(result.insertId), {
-            httpOnly: true,
-            secure: false,
-            sameSite: 'lax',
-            maxAge: 24 * 60 * 60 * 1000
-        });
+        res.cookie(
+            'securely_user_id',
+            String(result.insertId),
+            {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'lax',
+                maxAge: 24 * 60 * 60 * 1000
+            }
+        );
 
         // Remove temporary data
         verificationCodes.delete(email);
@@ -376,7 +414,11 @@ app.post('/api/auth/verify-code', async (req, res) => {
 
     } catch (error) {
 
-        console.error('Verify code error:', error);
+        console.error(
+            'Verify code error:',
+            error
+        );
+
         res.status(500).json({
             success: false,
             message: 'Verification failed'
@@ -397,7 +439,8 @@ app.post('/api/auth/resend-verification', async (req, res) => {
 
         const { email } = req.body;
 
-        const pendingUser = pendingRegistrations.get(email);
+        const pendingUser =
+            pendingRegistrations.get(email);
 
         if (!pendingUser) {
             return res.status(400).json({
@@ -407,7 +450,9 @@ app.post('/api/auth/resend-verification', async (req, res) => {
         }
 
         // Generate new code
-        const code = String(Math.floor(1000 + Math.random() * 9000));
+        const code = String(
+            Math.floor(1000 + Math.random() * 9000)
+        );
 
         verificationCodes.set(email, {
             code,
@@ -415,17 +460,21 @@ app.post('/api/auth/resend-verification', async (req, res) => {
             attempts: 0
         });
 
-        // Get name from pending registration
-        const pendingName = pendingUser.name || 'there';
+        // Get name
+        const pendingName =
+            pendingUser.name || 'there';
 
         // HTML-escape the name
-        const safeName = pendingName.replace(/[&<>"']/g, character => ({
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#39;'
-        })[character]);
+        const safeName = pendingName.replace(
+            /[&<>"']/g,
+            character => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[character]
+        );
 
         // Send email
         try {
@@ -436,14 +485,26 @@ app.post('/api/auth/resend-verification', async (req, res) => {
                 to: email,
                 subject: 'New Verification Code',
 
-                text: `Hello ${pendingName},\n\nYour verification code is: ${code}\n\nThis code will expire in 5 minutes.\n\nIf you didn't request this, please ignore this email.`,
+                text: `Hello ${pendingName},
 
-                html: buildVerificationEmail(safeName, code)
+Your verification code is: ${code}
+
+This code will expire in 5 minutes.
+
+If you didn't request this, please ignore this email.`,
+
+                html: buildVerificationEmail(
+                    safeName,
+                    code
+                )
 
             });
 
         } catch (e) {
-            console.error('Email error:', e.message);
+            console.error(
+                'Email error:',
+                e.message
+            );
         }
 
         res.json({
@@ -453,7 +514,11 @@ app.post('/api/auth/resend-verification', async (req, res) => {
 
     } catch (error) {
 
-        console.error('Resend verification error:', error);
+        console.error(
+            'Resend verification error:',
+            error
+        );
+
         res.status(500).json({
             success: false,
             message: 'Failed to resend'
@@ -495,7 +560,11 @@ app.post('/api/auth/login', async (req, res) => {
 
         const user = users[0];
 
-        const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+        const isPasswordValid =
+            await bcrypt.compare(
+                password,
+                user.password_hash
+            );
 
         if (!isPasswordValid) {
             return res.status(401).json({
@@ -511,12 +580,16 @@ app.post('/api/auth/login', async (req, res) => {
             });
         }
 
-        res.cookie('securely_user_id', String(user.id), {
-            httpOnly: true,
-            secure: false,
-            sameSite: 'lax',
-            maxAge: 24 * 60 * 60 * 1000
-        });
+        res.cookie(
+            'securely_user_id',
+            String(user.id),
+            {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'lax',
+                maxAge: 24 * 60 * 60 * 1000
+            }
+        );
 
         res.json({
             success: true,
@@ -532,7 +605,11 @@ app.post('/api/auth/login', async (req, res) => {
 
     } catch (error) {
 
-        console.error('Login error:', error);
+        console.error(
+            'Login error:',
+            error
+        );
+
         res.status(500).json({
             success: false,
             message: 'Login failed'
@@ -551,7 +628,8 @@ app.get('/api/auth/me', async (req, res) => {
 
     try {
 
-        const userId = req.cookies.securely_user_id;
+        const userId =
+            req.cookies.securely_user_id;
 
         if (!userId) {
             return res.status(401).json({
@@ -568,11 +646,16 @@ app.get('/api/auth/me', async (req, res) => {
         );
 
         if (users.length === 0) {
-            res.clearCookie('securely_user_id');
+
+            res.clearCookie(
+                'securely_user_id'
+            );
+
             return res.status(401).json({
                 success: false,
                 message: 'User not found'
             });
+
         }
 
         res.json({
@@ -582,7 +665,11 @@ app.get('/api/auth/me', async (req, res) => {
 
     } catch (error) {
 
-        console.error('Get current user error:', error);
+        console.error(
+            'Get current user error:',
+            error
+        );
+
         res.status(500).json({
             success: false,
             message: 'Failed'
@@ -599,7 +686,9 @@ app.get('/api/auth/me', async (req, res) => {
 
 app.post('/api/auth/logout', (req, res) => {
 
-    res.clearCookie('securely_user_id');
+    res.clearCookie(
+        'securely_user_id'
+    );
 
     res.json({
         success: true,
@@ -644,10 +733,16 @@ app.get('/api/debug/users', async (req, res) => {
 // START SERVER
 // ============================================
 
+// IMPORTANT FOR RENDER:
+// Use 0.0.0.0 instead of 127.0.0.1
+// so Render can access the server.
+
 app.listen(
     PORT,
-    '127.0.0.1',
+    '0.0.0.0',
     () => {
-        console.log(`Securely server is running on http://127.0.0.1:${PORT}`);
+        console.log(
+            `Securely server is running on port ${PORT}`
+        );
     }
 );
