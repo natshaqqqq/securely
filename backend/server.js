@@ -1,4 +1,5 @@
-// server.js - Local development with cookies
+
+// server.js - Local + Render deployment with cookies
 
 const path = require('path');
 const dotenv = require('dotenv');
@@ -65,52 +66,79 @@ function buildVerificationEmail(name, code) {
 <meta name="color-scheme" content="light only">
 <meta name="supported-color-schemes" content="light only">
 </head>
+
 <body style="margin:0; padding:0; background-color:#f4f4f6; font-family:Arial, Helvetica, sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f4f6; padding:40px 20px;">
-    <tr>
-      <td align="center">
-        <table role="presentation" width="520" cellpadding="0" cellspacing="0" border="0" style="max-width:520px; width:100%; background-color:#ffffff; border-radius:12px; border:1px solid #eaeaea;">
-          <tr>
-            <td style="padding:40px 40px 0 40px;">
-              <p style="margin:0 0 8px 0; font-family:Arial, sans-serif; font-size:13px; font-weight:bold; letter-spacing:1px; color:#2a2c47; text-transform:uppercase;">
-                SECURELY
-              </p>
-              <h1 style="margin:0 0 24px 0; font-family:Arial, sans-serif; font-size:26px; font-weight:bold; color:#4b3b9b; line-height:1.2;">
-                Securely Verification
-              </h1>
-              <p style="margin:0 0 14px 0; font-family:Arial, sans-serif; font-size:15px; color:#14161f; line-height:1.6;">
-                Hello ${name},
-              </p>
-              <p style="margin:0 0 14px 0; font-family:Arial, sans-serif; font-size:15px; color:#14161f; line-height:1.6;">
-                Your verification code is:
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <td style="padding:0 40px;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f0f0f4; border-radius:10px;">
-                <tr>
-                  <td align="center" style="padding:24px; font-family:'Courier New', Courier, monospace; font-size:38px; font-weight:bold; color:#4b3b9b; letter-spacing:8px;">
-                    ${code}
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td style="padding:24px 40px 40px 40px;">
-              <p style="margin:0 0 8px 0; font-family:Arial, sans-serif; font-size:13px; color:#5b5f6b; line-height:1.6;">
-                This code will expire in 5 minutes.
-              </p>
-              <p style="margin:0; font-family:Arial, sans-serif; font-size:13px; color:#5b5f6b; line-height:1.6;">
-                If you didn't request this, please ignore this email.
-              </p>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="background-color:#f4f4f6; padding:40px 20px;">
+
+<tr>
+<td align="center">
+
+<table role="presentation" width="520" cellpadding="0" cellspacing="0" border="0"
+       style="max-width:520px; width:100%; background-color:#ffffff; border-radius:12px; border:1px solid #eaeaea;">
+
+<tr>
+<td style="padding:40px 40px 0 40px;">
+
+<p style="margin:0 0 8px 0; font-family:Arial, sans-serif; font-size:13px; font-weight:bold; letter-spacing:1px; color:#2a2c47; text-transform:uppercase;">
+SECURELY
+</p>
+
+<h1 style="margin:0 0 24px 0; font-family:Arial, sans-serif; font-size:26px; font-weight:bold; color:#4b3b9b; line-height:1.2;">
+Securely Verification
+</h1>
+
+<p style="margin:0 0 14px 0; font-family:Arial, sans-serif; font-size:15px; color:#14161f; line-height:1.6;">
+Hello ${name},
+</p>
+
+<p style="margin:0 0 14px 0; font-family:Arial, sans-serif; font-size:15px; color:#14161f; line-height:1.6;">
+Your verification code is:
+</p>
+
+</td>
+</tr>
+
+<tr>
+<td style="padding:0 40px;">
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="background-color:#f0f0f4; border-radius:10px;">
+
+<tr>
+<td align="center"
+    style="padding:24px; font-family:'Courier New', Courier, monospace; font-size:38px; font-weight:bold; color:#4b3b9b; letter-spacing:8px;">
+${code}
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+<tr>
+<td style="padding:24px 40px 40px 40px;">
+
+<p style="margin:0 0 8px 0; font-family:Arial, sans-serif; font-size:13px; color:#5b5f6b; line-height:1.6;">
+This code will expire in 5 minutes.
+</p>
+
+<p style="margin:0; font-family:Arial, sans-serif; font-size:13px; color:#5b5f6b; line-height:1.6;">
+If you didn't request this, please ignore this email.
+</p>
+
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+</table>
+
 </body>
 </html>
     `;
@@ -123,24 +151,44 @@ function buildVerificationEmail(name, code) {
 
 app.use(cors({
     origin: function (origin, callback) {
+
+        // Allow requests without an origin
+        // such as Postman or server-side requests
         if (!origin) {
             return callback(null, true);
         }
 
-        if (origin.startsWith('http://localhost:')) {
+        // Local development
+        if (
+            origin.startsWith('http://localhost:') ||
+            origin.startsWith('http://127.0.0.1:')
+        ) {
             return callback(null, true);
         }
 
-        if (origin.startsWith('http://127.0.0.1:')) {
+        // Vercel production frontend
+        if (origin === 'https://securely-amber.vercel.app') {
             return callback(null, true);
         }
 
-        callback(new Error('Not allowed by CORS'));
+        return callback(new Error('Not allowed by CORS'));
     },
 
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+
+    methods: [
+        'GET',
+        'POST',
+        'PUT',
+        'DELETE',
+        'OPTIONS'
+    ],
+
+    allowedHeaders: [
+        'Content-Type',
+        'Authorization',
+        'Accept'
+    ]
 }));
 
 
@@ -182,10 +230,12 @@ app.use('/api/simulations', simulationRoutes);
 // ============================================
 
 app.get('/api/test', (req, res) => {
+
     res.json({
         success: true,
         message: 'Backend is working!'
     });
+
 });
 
 
@@ -201,51 +251,53 @@ app.post('/api/auth/send-verification', async (req, res) => {
 
         const { name, email, password } = req.body;
 
-        // Required fields
         if (!name || !email || !password) {
+
             return res.status(400).json({
                 success: false,
                 message: 'Name, email, and password are required'
             });
+
         }
 
-        // Validate email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (!emailRegex.test(email)) {
+
             return res.status(400).json({
                 success: false,
                 message: 'Invalid email'
             });
+
         }
 
-        // Validate password
         if (password.length < 8) {
+
             return res.status(400).json({
                 success: false,
                 message: 'Password must be at least 8 characters'
             });
+
         }
 
-        // Check existing user
         const [existing] = await pool.execute(
             'SELECT * FROM users WHERE email = ?',
             [email]
         );
 
         if (existing.length > 0) {
+
             return res.status(409).json({
                 success: false,
                 message: 'Email already registered'
             });
+
         }
 
-        // Generate verification code
         const code = String(
             Math.floor(1000 + Math.random() * 9000)
         );
 
-        // Store pending registration
         pendingRegistrations.set(email, {
             name,
             email,
@@ -253,29 +305,31 @@ app.post('/api/auth/send-verification', async (req, res) => {
             timestamp: Date.now()
         });
 
-        // Store verification code
         verificationCodes.set(email, {
             code,
             timestamp: Date.now(),
             attempts: 0
         });
 
-        // HTML-escape the name
-        const safeName = name.replace(/[&<>"']/g, character => ({
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#39;'
-        })[character]);
+        const safeName = name.replace(
+            /[&<>"']/g,
+            character => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[character]
+        );
 
-        // Send email
         try {
 
             await transporter.sendMail({
 
                 from: `"Securely" <no-reply@securely.com>`,
+
                 to: email,
+
                 subject: 'Securely Verification',
 
                 text: `Hello ${name},
@@ -294,7 +348,12 @@ If you didn't request this, please ignore this email.`,
             });
 
         } catch (e) {
-            console.error('Email error:', e.message);
+
+            console.error(
+                'Email error:',
+                e.message
+            );
+
         }
 
         res.json({
@@ -305,7 +364,10 @@ If you didn't request this, please ignore this email.`,
 
     } catch (error) {
 
-        console.error('Send verification error:', error);
+        console.error(
+            'Send verification error:',
+            error
+        );
 
         res.status(500).json({
             success: false,
@@ -327,17 +389,21 @@ app.post('/api/auth/verify-code', async (req, res) => {
 
         const { email, code } = req.body;
 
-        const pendingUser = pendingRegistrations.get(email);
-        const storedData = verificationCodes.get(email);
+        const pendingUser =
+            pendingRegistrations.get(email);
+
+        const storedData =
+            verificationCodes.get(email);
 
         if (!pendingUser || !storedData) {
+
             return res.status(400).json({
                 success: false,
                 message: 'No pending registration'
             });
+
         }
 
-        // Check expiration
         if (
             Date.now() - storedData.timestamp >
             5 * 60 * 1000
@@ -350,7 +416,6 @@ app.post('/api/auth/verify-code', async (req, res) => {
 
         }
 
-        // Check code
         if (storedData.code !== code) {
 
             storedData.attempts += 1;
@@ -367,14 +432,12 @@ app.post('/api/auth/verify-code', async (req, res) => {
 
         }
 
-        // Hash password
         const hashedPassword =
             await bcrypt.hash(
                 pendingUser.password,
                 10
             );
 
-        // Insert user
         const [result] = await pool.execute(
             `INSERT INTO users
             (name, email, password_hash, is_verified, created_at, updated_at)
@@ -386,19 +449,18 @@ app.post('/api/auth/verify-code', async (req, res) => {
             ]
         );
 
-        // Set login cookie
+        // Production cookie for Vercel -> Render
         res.cookie(
             'securely_user_id',
             String(result.insertId),
             {
                 httpOnly: true,
-                secure: false,
-                sameSite: 'lax',
+                secure: true,
+                sameSite: 'none',
                 maxAge: 24 * 60 * 60 * 1000
             }
         );
 
-        // Remove temporary data
         verificationCodes.delete(email);
         pendingRegistrations.delete(email);
 
@@ -443,13 +505,14 @@ app.post('/api/auth/resend-verification', async (req, res) => {
             pendingRegistrations.get(email);
 
         if (!pendingUser) {
+
             return res.status(400).json({
                 success: false,
                 message: 'No pending registration'
             });
+
         }
 
-        // Generate new code
         const code = String(
             Math.floor(1000 + Math.random() * 9000)
         );
@@ -460,11 +523,9 @@ app.post('/api/auth/resend-verification', async (req, res) => {
             attempts: 0
         });
 
-        // Get name
         const pendingName =
             pendingUser.name || 'there';
 
-        // HTML-escape the name
         const safeName = pendingName.replace(
             /[&<>"']/g,
             character => ({
@@ -476,13 +537,14 @@ app.post('/api/auth/resend-verification', async (req, res) => {
             })[character]
         );
 
-        // Send email
         try {
 
             await transporter.sendMail({
 
                 from: `"Securely" <no-reply@securely.com>`,
+
                 to: email,
+
                 subject: 'New Verification Code',
 
                 text: `Hello ${pendingName},
@@ -501,10 +563,12 @@ If you didn't request this, please ignore this email.`,
             });
 
         } catch (e) {
+
             console.error(
                 'Email error:',
                 e.message
             );
+
         }
 
         res.json({
@@ -540,10 +604,12 @@ app.post('/api/auth/login', async (req, res) => {
         const { email, password } = req.body;
 
         if (!email || !password) {
+
             return res.status(400).json({
                 success: false,
                 message: 'Email and password required'
             });
+
         }
 
         const [users] = await pool.execute(
@@ -552,10 +618,12 @@ app.post('/api/auth/login', async (req, res) => {
         );
 
         if (users.length === 0) {
+
             return res.status(401).json({
                 success: false,
                 message: 'Invalid credentials'
             });
+
         }
 
         const user = users[0];
@@ -567,26 +635,31 @@ app.post('/api/auth/login', async (req, res) => {
             );
 
         if (!isPasswordValid) {
+
             return res.status(401).json({
                 success: false,
                 message: 'Invalid credentials'
             });
+
         }
 
         if (!user.is_verified) {
+
             return res.status(403).json({
                 success: false,
                 message: 'Please verify your email first'
             });
+
         }
 
+        // Production cookie for Vercel -> Render
         res.cookie(
             'securely_user_id',
             String(user.id),
             {
                 httpOnly: true,
-                secure: false,
-                sameSite: 'lax',
+                secure: true,
+                sameSite: 'none',
                 maxAge: 24 * 60 * 60 * 1000
             }
         );
@@ -632,10 +705,12 @@ app.get('/api/auth/me', async (req, res) => {
             req.cookies.securely_user_id;
 
         if (!userId) {
+
             return res.status(401).json({
                 success: false,
                 message: 'Not logged in'
             });
+
         }
 
         const [users] = await pool.execute(
@@ -687,7 +762,12 @@ app.get('/api/auth/me', async (req, res) => {
 app.post('/api/auth/logout', (req, res) => {
 
     res.clearCookie(
-        'securely_user_id'
+        'securely_user_id',
+        {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none'
+        }
     );
 
     res.json({
@@ -733,16 +813,14 @@ app.get('/api/debug/users', async (req, res) => {
 // START SERVER
 // ============================================
 
-// IMPORTANT FOR RENDER:
-// Use 0.0.0.0 instead of 127.0.0.1
-// so Render can access the server.
-
 app.listen(
     PORT,
     '0.0.0.0',
     () => {
+
         console.log(
             `Securely server is running on port ${PORT}`
         );
+
     }
 );

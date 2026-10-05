@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             try {
                 const response = await fetch(
-                    `${API_BASE_URL}/api/auth/verify`,
+                    `${API_BASE_URL}/api/auth/verify-code`,
                     {
                         method: 'POST',
                         headers: {
