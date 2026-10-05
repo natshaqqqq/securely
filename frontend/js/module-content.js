@@ -2,7 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', async function () {
 
-    const API_BASE = 'https://securely-backend-xq4c.onrender.com';
+    const API_BASE = '';
 
     let userId = null;
     let userData = null;

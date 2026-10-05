@@ -4,7 +4,7 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const API_BASE = 'https://securely-backend-xq4c.onrender.com';   // ← match dashboard/modules
+    const API_BASE = '';   // ← match dashboard/modules
 
     const loginForm = document.getElementById('loginForm');
     const emailInput = document.getElementById('email');
