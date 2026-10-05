@@ -1,4 +1,3 @@
-
 // server.js - Local + Render deployment with cookies
 
 const path = require('path');
