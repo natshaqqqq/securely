@@ -2,7 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const API_BASE = 'http://127.0.0.1:3000';
+    const API_BASE = 'https://securely-backend-xq4c.onrender.com';
 
     let userId = null;
     let messages = [];

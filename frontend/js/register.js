@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const timerSpan = document.getElementById('timer');
     const errorDiv = document.getElementById('verifyError');
 
-    const API_BASE_URL = 'http://localhost:3000';
+    const API_BASE_URL = 'https://securely-backend-xq4c.onrender.com';
 
     let resendTimer = 60;
     let timerInterval = null;
