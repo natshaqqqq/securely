@@ -14,13 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // API Base URL
     const API_BASE_URL = '';
 
-    // Check if user is already logged in
-    const userId = localStorage.getItem('securely_user_id');
-    if (userId) {
-        window.location.href = 'dashboard.html';
-        return;
-    }
-
     // Toggle password visibility
     if (togglePassword) {
         togglePassword.addEventListener('click', function() {
