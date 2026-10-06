@@ -1833,7 +1833,9 @@ img {
     }
 
     .main-content {
+        width: 100%;
         margin-left: 0;
+        max-width: 100%;
     }
 
     .menu-toggle {
